@@ -7,7 +7,6 @@ const GET_MOVIE = gql`
   query getMovie($id: Int!) {
     movie(id: $id) {
       title
-      id
       medium_cover_image
       genres
       rating
@@ -21,13 +20,14 @@ const Container = styled.div`
   background-image: linear-gradient(-45deg, #d754ab, #fd723a);
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   color: white;
 `;
 
 const Column = styled.div`
   margin-left: 10px;
+  width: 60%;
 `;
 
 const Title = styled.h1`
@@ -42,11 +42,13 @@ const Subtitle = styled.h4`
 
 const Description = styled.p`
   font-size: 28px;
+  width: 40%;
 `;
 
 const Poster = styled.div`
   width: 25%;
   height: 60%;
+  background-image: url(${(props) => props.bg});
   background-color: transparent;
 `;
 
@@ -59,11 +61,21 @@ const Detail = () => {
   return (
     <Container>
       <Column>
-        <Title>Name</Title>
-        <Subtitle>English · 4.5</Subtitle>
-        <Description>lorem ipsum lalalla </Description>
+        {loading ? (
+          <Title>Loading...</Title>
+        ) : (
+          <>
+            <Title>{data.movie.title}</Title>
+            <Subtitle>
+              {data.movie.genres} <span>{data.movie.ratirng}</span>
+            </Subtitle>
+            <Description>{data.movie.description_intro} </Description>
+          </>
+        )}
       </Column>
-      <Poster></Poster>
+      <Poster
+        bg={data && data.movie ? data.movie.medium_cover_image : ""}
+      ></Poster>
     </Container>
   );
 };
