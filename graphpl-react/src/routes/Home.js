@@ -57,13 +57,21 @@ const Home = () => {
   return (
     <Container>
       <Header>
-        <Title>Apollo 2020</Title>
+        <Title>Apollo </Title>
         <Subtitle>I love GraphQL</Subtitle>
       </Header>
-      {loading && <Loading>Loading...</Loading>}
-      {!loading &&
-        data.movies &&
-        data.movies.map((movie) => <Movie key={movie.id} id={movie.id} />)}
+      <Movies>
+        {loading && <Loading>Loading...</Loading>}
+        {!loading &&
+          data.movies &&
+          data.movies.map((movie) => (
+            <Movie
+              key={movie.id}
+              id={movie.id}
+              medium_cover_image={movie.medium_cover_image}
+            />
+          ))}
+      </Movies>
     </Container>
   );
 };
