@@ -11,8 +11,8 @@ const GET_MOVIES = gql`
 `;
 const Home = () => {
   const { loading, error, data } = useQuery(GET_MOVIES);
-  console.log(data);
-  return <div>Home</div>;
+  if (loading) return "Loading..";
+  if (data.movies) return data.movies.map((m) => <div key={m.id}>{m.id}</div>);
 };
 
 export default Home;
