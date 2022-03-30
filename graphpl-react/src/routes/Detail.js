@@ -12,6 +12,11 @@ const GET_MOVIE = gql`
       rating
       description_intro
     }
+    suggestions(id: $id) {
+      id
+      title
+      medium_cover_image
+    }
   }
 `;
 
@@ -51,6 +56,21 @@ const Poster = styled.div`
   background-image: url(${(props) => props.bg});
   background-color: transparent;
 `;
+const SuggestionList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background-color: gray;
+  height: 250px;
+  margin-top: 180px;
+`;
+const Suggestion = styled.div`
+  width: 250px;
+  height: 200px;
+  margin-top: 50px;
+  background-image: url(${(props) => props.bg});
+  background-size: cover;
+  background-position: center center;
+`;
 
 const Detail = () => {
   const { id } = useParams();
@@ -72,10 +92,21 @@ const Detail = () => {
             <Description>{data.movie.description_intro} </Description>
           </>
         )}
+
+        <SuggestionList>
+          {data?.suggestions?.map((movie) => (
+            <>
+              <Suggestion
+                key={movie.id}
+                bg={data?.suggestions ? movie.medium_cover_image : ""}
+              >
+                {movie.title}
+              </Suggestion>
+            </>
+          ))}
+        </SuggestionList>
       </Column>
-      <Poster
-        bg={data && data.movie ? data.movie.medium_cover_image : ""}
-      ></Poster>
+      <Poster bg={data?.movie?.medium_cover_image}></Poster>
     </Container>
   );
 };
